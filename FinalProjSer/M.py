@@ -21,7 +21,7 @@ df = pd.concat([df_k, df_h, df_n], ignore_index=True)
 
 df = df.dropna()
 
-df['Date of sale'] = pd.to_datetime(df['Date of sale'], errors='coerce')
+df['Date of sale'] = pd.to_datetime(df['Date of sale'], errors='coerce', dayfirst=True)
 df['SaleYear'] = df['Date of sale'].dt.year
 df['SaleMonth'] = df['Date of sale'].dt.month
 df = df.drop(columns=['Date of sale'])
@@ -29,17 +29,20 @@ df = df.drop(columns=['Date of sale'])
 
 df = pd.get_dummies(df, columns=['Type','City'])
 
-df['Block'] = df['Block'].astype(str).str[:-1].astype(int)
-#df['old'] = df['SaleYear'].astype(int) - df['Year Built'].astype(int)
+df['Block'] = df['Block'] //10
+df['old'] = df['SaleYear'].astype(int) - df['Year Bulit'].astype(int) #######
+df['Price_per_sqm'] = df['Selling price in NIS'] / df['Area'] ########
+df['Room_Density'] = df['Area'] / df['Rooms'] #######1
+
 X = df.drop(columns=['Selling price in NIS'])
 y = df['Selling price in NIS']
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-model = RandomForestRegressor(random_state=42)
+model = RandomForestRegressor()
 model.fit(X_train, y_train)
 
 
 score = model.score(X_test, y_test)
+
 print(f"Model R² Score: {score:.2f}")
