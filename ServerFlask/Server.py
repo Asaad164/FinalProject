@@ -20,6 +20,19 @@ def predict():
     # Create a DataFrame from the received data
     df = pd.DataFrame([data])
 
+    #prepare and preprocess the data
+    final_df = prepareData(df)
+
+    # Predict
+    predicted_price = model.predict(final_df)[0]
+    rng = predicted_price * 0.08
+    print(f"\nposted data to frontend: Predicted Price: {predicted_price - rng:,.2f}₪   to {predicted_price + rng:,.2f}₪")
+    return jsonify({
+        "Predicted Price": f"{predicted_price - rng:,.2f}₪ to {predicted_price + rng:,.2f}₪"
+    })
+
+def prepareData(df):
+
     # Simplify 'Block' to reduce granularity
     df['Block'] = df['Block'].astype(int) // 10
     # Parse 'Date of sale' and extract year and month
@@ -49,14 +62,7 @@ def predict():
         else:
             final_df[feature] = 0
 
-    # Predict
-    predicted_price = model.predict(final_df)[0]
-    rng = predicted_price * 0.08
-    print(f"\nposted data to frontend: Predicted Price: {predicted_price - rng:,.2f}₪   to {predicted_price + rng:,.2f}₪")
-    return jsonify({
-        "Predicted Price": f"{predicted_price - rng:,.2f}₪ to {predicted_price + rng:,.2f}₪"
-    })
-
+    return final_df
 
 if __name__ == '__main__':
     app.run(debug=True)
