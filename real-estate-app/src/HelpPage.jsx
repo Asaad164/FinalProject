@@ -2,8 +2,7 @@ import React from 'react';
 
 //Help page component that displays information about the platform
 const HelpPage = () => (
-  <div className="relative min-h-screen bg-gray-50">
-    <div className="absolute inset-0 bg-blue-50 opacity-50 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+  <div className="relative min-h-screen">
     <div className="relative max-w-3xl mx-auto px-4 py-12">
       <div className="bg-white rounded-2xl shadow-xl p-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Help & FAQ</h2>

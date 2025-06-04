@@ -16,6 +16,7 @@ const ResultsPage = ({ estimatedPrice, setCurrentPage, setEstimatedPrice, formDa
 
       // Create the content for the file
       const content = `Property Details:
+House Name: ${formData.houseName || 'Unnamed Property'}
 Block: ${formData.block}
 Date of Sale: ${formattedDate}
 Type: ${formData.type}
@@ -34,7 +35,8 @@ Predicted Price Range: ${estimatedPrice}`;
       // Create a temporary link and trigger the download
       const link = document.createElement('a');
       link.href = url;
-      link.download = `property_estimate_${new Date().toISOString().split('T')[0]}.txt`;
+      const safeHouseName = formData.houseName ? formData.houseName.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'unnamed';
+      link.download = `${safeHouseName}_estimation_${new Date().toISOString().split('T')[0]}.txt`;
       document.body.appendChild(link);
       link.click();
       
@@ -48,11 +50,56 @@ Predicted Price Range: ${estimatedPrice}`;
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50">
-      <div className="absolute inset-0 bg-blue-50 opacity-50 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div className="relative min-h-screen">
       <div className="relative max-w-2xl mx-auto px-4 py-6 sm:py-12">
         <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">Predicted Price Range</h2>
+          
+          {/* Property Details Section */}
+          <div className="mb-8 sm:mb-12">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Property Details</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {formData.houseName && (
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <span className="text-gray-600 font-medium">House Name:</span>
+                  <span className="ml-2">{formData.houseName}</span>
+                </div>
+              )}
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">City:</span>
+                <span className="ml-2 capitalize">{formData.city}</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Property Type:</span>
+                <span className="ml-2 capitalize">{formData.type.replace(/-/g, ' ')}</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Area:</span>
+                <span className="ml-2">{formData.area} m²</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Rooms:</span>
+                <span className="ml-2">{formData.rooms}</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Year Built:</span>
+                <span className="ml-2">{formData.yearBuilt}</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Block:</span>
+                <span className="ml-2">{formData.block}</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Sold Part:</span>
+                <span className="ml-2">{formData.soldPart}</span>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <span className="text-gray-600 font-medium">Date of Sale:</span>
+                <span className="ml-2">{formData.dateOfSale.split('-').reverse().join('/')}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="text-center mb-8 sm:mb-12">
             <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
               {estimatedPrice}

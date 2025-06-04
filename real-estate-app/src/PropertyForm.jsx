@@ -12,7 +12,8 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
     city: '',
     yearBuilt: '',
     area: '',
-    rooms: ''
+    rooms: '',
+    houseName: ''
   });
   const [errors, setErrors] = useState({}); //State to hold the errors in the form
 
@@ -46,6 +47,8 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
     
     if (!formData.area) {
       newErrors.area = 'Please enter the property size';
+    } else if (parseFloat(formData.area) <= 0) {
+      newErrors.area = 'Property size must be greater than 0';
     }
     if (!formData.rooms) {
       newErrors.rooms = 'Please enter the number of rooms';
@@ -154,12 +157,24 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50">
-      <div className="absolute inset-0 bg-blue-50 opacity-50 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div className="relative min-h-screen">
       <div className="relative max-w-2xl mx-auto px-4 py-6 sm:py-12">
         <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">Property Details</h2>
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" noValidate>
+            {/* House Name */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">House Name (Optional)</label>
+              <input 
+                type="text" 
+                name="houseName"
+                value={formData.houseName}
+                onChange={handleInputChange}
+                placeholder="Enter a name for your property" 
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
+              />
+            </div>
+
             {/* Area */}
             <div>
               <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">Property Size (m²)</label>
@@ -247,7 +262,7 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
                 className={`w-full p-2 sm:p-3 border ${errors.city ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base`}
               >
                 <option value="">Select city</option>
-                <option value="nahariyya">Nahariyya</option>
+                <option value="nahariyya">Nahariya</option>
                 <option value="haifa">Haifa</option>
                 <option value="karmiel">Karmiel</option>
               </select>
@@ -276,7 +291,7 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
 
             {/* Sold Part */}
             <div>
-              <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">Sold Part</label>
+              <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">Sold Part (1 = the whole apartment)</label>
               <input 
                 type="number" 
                 name="soldPart"
@@ -292,9 +307,7 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
               />
               {errors.soldPart ? (
                 <p className="mt-1 text-sm text-red-500">{errors.soldPart}</p>
-              ) : (
-                <p className="mt-1 text-sm text-gray-500">Enter a value between 0 and 1 (e.g., 0.5 for half of the property)</p>
-              )}
+              ) : null}
             </div>
 
             <button 

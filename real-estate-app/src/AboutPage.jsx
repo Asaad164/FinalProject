@@ -3,8 +3,7 @@ import { Building2, Target, Shield, Zap, Users } from 'lucide-react';
 
 //About page component that displays information about the platform
 const AboutPage = () => (
-  <div className="relative min-h-screen bg-gray-50">
-    <div className="absolute inset-0 bg-blue-50 opacity-50 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+  <div className="relative min-h-screen">
     <div className="relative max-w-4xl mx-auto px-4 py-12">
       <div className="bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-12">
