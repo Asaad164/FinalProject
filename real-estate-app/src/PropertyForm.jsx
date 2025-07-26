@@ -52,6 +52,8 @@ const PropertyForm = ({ setEstimatedPrice, setCurrentPage }) => {
     }
     if (!formData.rooms) {
       newErrors.rooms = 'Please enter the number of rooms';
+    } else if (parseFloat(formData.rooms) <= 0) {
+      newErrors.rooms = 'Number of rooms must be greater than 0';
     }
     if (!formData.yearBuilt) {
       newErrors.yearBuilt = 'Please enter the year built';
