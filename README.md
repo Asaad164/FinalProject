@@ -86,8 +86,33 @@ The frontend application will be available at `http://localhost:3000` (or the po
 ## Project Structure
 
 ```
-<img width="865" height="857" alt="image" src="https://github.com/user-attachments/assets/a8e1fb9c-9cbb-4645-818b-9f2672f566a7" />
+ServerFlask/                      # Backend server folder
+├── apartment_price_model.pkl    # Trained ML model file
+├── server.py                    # Flask server for predictions
+└── requirements.txt             # Python dependencies
 
+ModelTrain/                      # Model training folder
+├── model.py                     # Script for training the model
+├── AllKj.json                   # Training datasets
+├── AllHj.json
+└── AllNj.json
+
+real-estate-app/                 # Frontend React application
+├── index.html                   # HTML entry point
+├── package.json                 # npm dependencies
+├── vite.config.js               # Vite bundler config
+├── tailwind.config.js          # Tailwind CSS config
+├── postcss.config.js           # PostCSS config
+└── src/                         # React source code
+    ├── App.jsx
+    ├── main.jsx
+    ├── index.css
+    ├── Navigation.jsx
+    ├── HomePage.jsx
+    ├── PropertyForm.jsx
+    ├── ResultsPage.jsx
+    ├── AboutPage.jsx
+    └── HelpPage.jsx
 ```
 
 ##  Usage
